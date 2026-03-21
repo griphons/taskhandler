@@ -61,7 +61,13 @@ class TaskController extends BaseController
     }
 
     public function delete($id) {
+        $this->crud->delete()
+            ->table('tasks')
+            ->whereId($id)->get();
+        $cookieContent = "bg-success;The task has been deleted!";
 
+        setcookie("flashCookie", $cookieContent, time() + 3600,"/");
+        $this->helper->redirect('/task-list');
     }
 
 }

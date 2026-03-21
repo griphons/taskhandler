@@ -22,7 +22,7 @@
             Confirmation Request
         </div>
         <div class="confirm-body">
-            Are you sure you want to delete this user?
+            Are you sure you want to delete this record?
         </div>
         <div class="confirm-footer">
             <form method="post" id="confirmForm" action="">
