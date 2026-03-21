@@ -14,7 +14,7 @@
         <input type="hidden" name="csrf" value="<?= $this->helper->h($this->helper->csrf_token()) ?>">
         <input type="hidden" name="id" value="<?= $data["user"]["id"] ?>">
 
-        <div class="from-group col-md-6 col-xs-12">
+        <div class="form-group col-md-6 col-xs-12">
             <label for="name">Username</label>
             <input type="text" class="form-control" id="name" name="name" required placeholder="User Name" value="<?= $data["user"]["name"] ?>">
             <p class="help-block">It must be unique</p>
@@ -51,5 +51,4 @@
             document.querySelector("label[for=" + cell + "]").classList.add("error");
         });
     }
-    console.log("error cells:",errorCell);
 </script>

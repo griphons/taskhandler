@@ -49,11 +49,55 @@ class TaskController extends BaseController
     }
 
     public function create() {
+        $title = 'Add Task';
 
+        $statusKeys = array_keys($this->taskStatus);
+
+        $data = [];
+        $data["task"] = [
+            "id" => 0,
+            "name" => "",
+            "body" => "",
+            "status" => 0,
+            "user_id" => 0,
+            "due_date" => gmdate("j M Y", time() + 60 * 60 * 24 * 3),
+        ];
+
+        $data["user"] = $this->crud->reads(["id","name"])
+            ->table('users')
+            ->where("is_admin",'','!=',1)
+            ->get();
+
+        $data["submit"] = "Create New Task";
+        $data["error"] = "";
+
+        include __DIR__ . '/../views/header.php';
+        include __DIR__ . '/../views/admin/task_form.php';
+        include __DIR__ . '/../views/footer.php';
     }
 
     public function update($id) {
+        $title = 'Edit Task';
 
+        $statusKeys = array_keys($this->taskStatus);
+
+        $data = [];
+        $data["task"] = $this->crud->read()
+            ->table('tasks')
+            ->whereId($id)->get();
+        $data["task"]["due_date"] = gmdate("j M Y", strtotime($data["task"]["due_date"]));
+
+        $data["user"] = $this->crud->reads(["id","name"])
+            ->table('users')
+            ->where("is_admin",'','!=',1)
+            ->get();
+
+        $data["submit"] = "Update Task";
+        $data["error"] = "";
+
+        include __DIR__ . '/../views/header.php';
+        include __DIR__ . '/../views/admin/task_form.php';
+        include __DIR__ . '/../views/footer.php';
     }
 
     public function submit() {

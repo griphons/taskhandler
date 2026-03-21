@@ -5,7 +5,7 @@
     <form method="post" action="/login">
         <input type="hidden" name="csrf" value="<?= $this->helper->h($this->helper->csrf_token()) ?>">
 
-        <div class="from-group col-md-6 col-xs-12">
+        <div class="form-group col-md-6 col-xs-12">
             <label for="name">Username</label>
             <input type="text" class="form-control" id="name" name="name" required placeholder="Your Name">
         </div>
