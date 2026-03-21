@@ -53,11 +53,8 @@ switch (true) {
         $helper->verify_csrf();
         new UserController()->delete($m[1]);
         break;
-    case $uri === '/task-list' && $method === 'GET':
-        new TaskController()->index();
-        break;
-    case preg_match('#^/task-view/([\w-]+)$#', $uri, $m) && $method === 'GET':
-        new TaskController()->view($m[1]);
+    case preg_match('#^/task-list/*([\w-]*)$#', $uri, $m) && $method === 'GET':
+        new TaskController()->index($m[1]);
         break;
     case $uri === '/task-add' && $method === 'GET':
         new TaskController()->create();

@@ -10,10 +10,10 @@ function getCookie(cname) {
     let ca = document.cookie.split(';');
     for(let i = 0; i < ca.length; i++) {
         let c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return decodeURIComponent(c.substring(name.length, c.length));
         }
     }
@@ -21,10 +21,17 @@ function getCookie(cname) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    const confModal = document.querySelector('#confirmModal');
+    const contentModal = document.querySelector('#contentModal');
     const closeButton = document.querySelector('#closeButton');
 
     closeButton.addEventListener("click", function() {
+        contentModal.style.display = "none";
+    })
+
+    const confModal = document.querySelector('#confirmModal');
+    const cancelButton = document.querySelector('#cancelButton');
+
+    cancelButton.addEventListener("click", function() {
         confModal.style.display = "none";
     })
 

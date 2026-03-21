@@ -3,6 +3,19 @@
   <p>Made by Laszlo Kiss @2026</p>
 </footer>
 
+<div class="content-container" id="contentModal">
+    <div class="content-box">
+        <div class="content-header">
+            <div class="content-title"></div>
+            <div class="content-badges"></div>
+        </div>
+        <div class="content-body"></div>
+        <div class="content-footer">
+            <button class="btn btn-default btn-sm" id="closeButton">Close</button>
+        </div>
+    </div>
+</div>
+
 <div class="confirm-container" id="confirmModal">
     <div class="confirm-box">
         <div class="confirm-header">
@@ -16,7 +29,7 @@
                 <input type="hidden" name="csrf" value="<?= $this->helper->h($this->helper->csrf_token()) ?>">
                 <button class="btn btn-default" type="submit">Delete</button>
             </form>
-            <button class="btn btn-danger" id="closeButton">Cancel</button>
+            <button class="btn btn-danger" id="cancelButton">Cancel</button>
         </div>
     </div>
 </div>

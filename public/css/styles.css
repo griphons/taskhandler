@@ -160,7 +160,7 @@ td.actions {
     margin-bottom: 1rem;
 }
 
-.confirm-container {
+.confirm-container, .content-container {
     display: none;
     position: fixed;
     top: 0;
@@ -171,7 +171,7 @@ td.actions {
     justify-content: center;
     align-items: center;
 }
-.confirm-box {
+.confirm-box,.content-box {
     display: flex;
     flex-direction: column;
     width: 30vw;
@@ -181,13 +181,32 @@ td.actions {
     box-shadow: 0 5px 10px rgba(0,0,0,.25);
     overflow: hidden;
 }
+.content-box {
+    width: 60vw;
+}
 .confirm-header {
     padding: 1.5rem 2rem;
     font-size: 2rem;
     font-weight: 600;
     border-bottom: 2px solid rgba(0,0,0,.1);
 }
-.confirm-footer {
+.content-header {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(0,0,0,.1);
+}
+.content-header .content-title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+.content-header .content-badges {
+    display: flex;
+    align-items: flex-end;
+    gap: .5rem;
+}
+.confirm-footer, .content-footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,9 +214,21 @@ td.actions {
     padding: 1.5rem;
     border-top: 2px solid rgba(0,0,0,.1);
 }
+.content-footer {
+    justify-content: flex-end;
+}
 .confirm-body {
     padding: 2rem;
     text-align: center;
+}
+.content-body {
+    padding: 2rem;
+}
+.content-body-dates {
+    display: flex;
+    justify-content: space-between;
+    font-size: .75em;
+    padding-top: 1rem;
 }
 
 #flashModal {
