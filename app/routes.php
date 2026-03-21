@@ -53,6 +53,26 @@ switch (true) {
         $helper->verify_csrf();
         new UserController()->delete($m[1]);
         break;
+    case $uri === '/task-list' && $method === 'GET':
+        new TaskController()->index();
+        break;
+    case preg_match('#^/task-view/([\w-]+)$#', $uri, $m) && $method === 'GET':
+        new TaskController()->view($m[1]);
+        break;
+    case $uri === '/task-add' && $method === 'GET':
+        new TaskController()->create();
+        break;
+    case preg_match('#^/task-edit/([\w-]+)$#', $uri, $m) && $method === 'GET':
+        new TaskController()->update($m[1]);
+        break;
+    case $uri === '/task-submit' && $method === 'POST':
+        $helper->verify_csrf();
+        new TaskController()->submit();
+        break;
+    case preg_match('#^/task-delete/([\w-]+)$#', $uri, $m) && $method === 'POST':
+        $helper->verify_csrf();
+        new TaskController()->delete($m[1]);
+        break;
     default:
         new HomeController()->error404();
         break;

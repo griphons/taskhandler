@@ -23,5 +23,6 @@ require_once __DIR__ . "/../app/controllers/BaseController.php";
 require_once __DIR__ . "/../app/controllers/HomeController.php";
 require_once __DIR__ . "/../app/controllers/AdminController.php";
 require_once __DIR__ . "/../app/controllers/UserController.php";
+require_once __DIR__ . "/../app/controllers/TaskController.php";
 require_once __DIR__ . "/../app/controllers/AuthController.php";
 require_once __DIR__ . "/../lib/parsedown/Parsedown.php";

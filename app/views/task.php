@@ -20,13 +20,8 @@
                 <?php if ($this->user["is_admin"]): ?>
                     <span class="status-badge user-badge">User: <?= $task['users_name'] ?></span>
                 <?php endif; ?>
-                <?php
-                    if ($task['status'] == 0 && $task['due_date'] < gmdate("Y-m-d")) {
-                        $_status = 'missed';
-                    } else {
-                        $_status = $statusKeys[$task['status']];
-                    }
-                ?>
+                <?php $_status = $task["status"] == 0 ? (
+                $task["due_date"] < gmdate("Y-m-d") ? $statusKeys[3] : $statusKeys[0]) : $statusKeys[$task["status"]]; ?>
                 <span class="status-badge <?= $this->taskStatus[$_status] ?>"><?= ucfirst($_status) ?></span>
             </div>
         </div>
