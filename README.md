@@ -36,6 +36,7 @@ Of course, the application is very simple, there is no email management and noti
 
 ## Used Sources
 
+- [Reset CSS by Josh Comeau](https://www.joshwcomeau.com/css/custom-css-reset/)
 - [Bootstrap 3.4](https://getbootstrap.com/docs/3.4/) with [Flatly theme](https://bootswatch.com/3/flatly/) CSS & Icons
 - [Moment Js](https://momentjs.com/)
 - [Pikaday Js](https://github.com/Pikaday/Pikaday)
