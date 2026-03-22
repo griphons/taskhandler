@@ -13,7 +13,13 @@ class HomeController extends BaseController
         }
     }
 
-    public function index($statusText = 'all') {
+    /**
+     * User Task List
+     * @param $statusText
+     * @return void
+     */
+    public function index($statusText = 'all'): void
+    {
         $statusKeys = array_keys($this->taskStatus);
         $status = array_search($statusText, $statusKeys);
         if($status === false) {$statusText = 'all';}
@@ -49,7 +55,13 @@ class HomeController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
-    public function task(string $slug) {
+    /**
+     * User Task View
+     * @param string $slug
+     * @return void
+     */
+    public function task(string $slug): void
+    {
         $task = $this->crud->read()
             ->table('tasks')
             ->join('users', 'name',['user_id','id'])
@@ -70,6 +82,10 @@ class HomeController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
+    /**
+     * Public Error404 Page
+     * @return void
+     */
     public function error404() {
         http_response_code(404);
         $title = 'Not Found';

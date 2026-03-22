@@ -13,7 +13,12 @@ class UserController extends BaseController
         }
     }
 
-    public function index() {
+    /**
+     * Admin User List
+     * @return void
+     */
+    public function index(): void
+    {
         $title = 'User List';
 
         $data = [];
@@ -26,7 +31,12 @@ class UserController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
-    public function create() {
+    /**
+     * Admin User Create to Form
+     * @return void
+     */
+    public function create(): void
+    {
         $title = 'Add User';
 
         $data = [];
@@ -43,7 +53,13 @@ class UserController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
-    public function update($id) {
+    /**
+     * Admin User Update to Form
+     * @param $id
+     * @return void
+     */
+    public function update($id): void
+    {
         $title = 'Edit User';
 
         $data = [];
@@ -58,7 +74,12 @@ class UserController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
-    public function submit() {
+    /**
+     * Admin User Submit and Process Data from Form
+     * @return void
+     */
+    public function submit(): void
+    {
         $newId = $_POST["id"];
         $newPassword = $_POST["password"];
         $newData = [
@@ -137,6 +158,11 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Admin User Delete
+     * @param $id
+     * @return void
+     */
     public function delete($id) {
         if($id == 1) {
             $cookieContent = "bg-danger;The main admin cannot be deleted!";

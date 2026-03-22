@@ -54,6 +54,9 @@ class CRUD extends PDO
 
     /**
      * A helper to run a query with params and return the statement
+     * @param string $sql
+     * @param array $params
+     * @return false|\PDOStatement
      */
     public function run(string $sql, array $params = []): false|\PDOStatement
     {
@@ -105,7 +108,8 @@ class CRUD extends PDO
      * @param $cells
      * @return false|mixed
      */
-    public function getRow($table, $condition = '1', $cells = '*') {
+    public function getRow($table, $condition = '1', $cells = '*'): mixed
+    {
         $query = "SELECT ".$cells." FROM `".$table."` WHERE ".$condition;
         try {
             $req = $this->query($query);
@@ -123,7 +127,8 @@ class CRUD extends PDO
      * @param $id
      * @return false|mixed
      */
-    public function getRowById($table, $id) {
+    public function getRowById($table, $id): mixed
+    {
         $query = "SELECT * FROM `".$table."` WHERE `id` = :id ";
         try {
             $req = $this->prepare($query);
@@ -153,93 +158,127 @@ class CRUD extends PDO
      * @param $data - associative array of default values of the row
      * @return $this
      */
-    public function create($data = []) {
+    public function create($data = []): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "empty";
         $this->CRUD['data'] = $data;
         return $this;
     }
+
     /* CRUD OPERATIONS */
-    /* Read - return the query result by fetchAll(PDO::FETCH_ASSOCC)
-     * params
-     * $cells - array of cell names - array of strings
+
+    /**
+     * Reads - return the query result by fetchAll(PDO::FETCH_ASSOCC)
+     * @param $cells
+     * @return $this
      */
-    public function reads($cells = "*") {
+    public function reads($cells = "*"): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "reads";
         $this->CRUD['cells'] = $this->cellSelect($cells);
         return $this;
     }
-    /* Read - return the query result by fetch(PDO::FETCH_ASSOCC)
-     * params
-     * $cells - array of cell names - array of strings
+
+    /**
+     * Read - return the query result by fetch(PDO::FETCH_ASSOCC)
+     * @param $cells
+     * @return $this
      */
-    public function read($cells = "*") {
+    public function read($cells = "*"): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "read";
         $this->CRUD['cells'] = $this->cellSelect($cells);
         return $this;
     }
-    /* Select - return the query object
-     * params
-     * $cells - array of cell names - array of strings
-     * can use: "DISTINCT cellname"
+
+    /**
+     * Select - return the query object
+     * @param $cells
+     * @return $this
      */
-    public function select($cells = "*") {
+    public function select($cells = "*"): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "select";
         $this->CRUD['cells'] = $this->cellSelect($cells);
         return $this;
     }
-    /* Distinct  - return the query result by fetchAll(PDO::FETCH_ASSOCC)
-     * params
-     * $cell - cell name of distincted (NOT YET COMPLETED)
+
+    /**
+     * Distinct  - return the query result by fetchAll(PDO::FETCH_ASSOCC)
+     * @param $cell
+     * @return $this
      */
-    public function distinct($cell) {
+    public function distinct($cell): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "distinct";
         $this->CRUD['cells'] = [$cell];
         return $this;
     }
-    /* params
-    $data - associative array of updating data (keys for cell names, values for values)
-    */
-    public function update($data) {
+
+    /**
+     * Update
+     * @param $data
+     * @return $this
+     */
+    public function update($data): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "update";
         $this->CRUD['data'] = $data;
         return $this;
     }
-    /* params
-    $data - associative array of updating data (keys for cell names, values for values)
-    */
-    public function insert($data) {
+
+    /**
+     * Insert
+     * @param $data
+     * @return $this
+     */
+    public function insert($data): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "create";
         $this->CRUD['data'] = $data;
         return $this;
     }
-    /* params */
-    public function delete() {
+
+    /**
+     * Delete
+     * @return $this
+     */
+    public function delete(): static
+    {
         $this->CRUD = [];
         $this->CRUD['operation'] = "delete";
         return $this;
     }
-    /* params
-    $table - table name - string
-    */
-    public function table($table) {
+
+    /**
+     * Set Table
+     * @param $table
+     * @return $this
+     */
+    public function table($table): static
+    {
         if (isset($this->CRUD['operation'])) {
             $this->CRUD['table'] = $table;
         }
         return $this;
     }
-    /* params
-    $table - table name - string
-    $cells - array of cell names - array of strings (w/o alias)
-    $joincells - array of joiner cells w/o alias (first - main table cell, 2nd - joined table cell)
-    */
-    public function join($table, $cells, $joincells) {
+
+    /**
+     * Set LEFT JOIN
+     * @param $table - table name - string
+     * @param $cells - array of cell names - array of strings (w/o alias)
+     * @param $joincells - array of joiner cells w/o alias (first - main table cell, 2nd - joined table cell)
+     * @return $this
+     */
+    public function join($table, $cells, $joincells): static
+    {
         if (isset($this->CRUD['operation']) && $this->CRUD['operation'] != "create" && $this->CRUD['operation'] != "delete" && $this->CRUD['operation'] != "empty") {
             if (!isset($this->CRUD['join'])) {$this->CRUD['join'] = array();}
             if (!is_array($cells)) {$acells = array($cells);} else {$acells = $cells;}
@@ -253,18 +292,26 @@ class CRUD extends PDO
         }
         return $this;
     }
-    /* params
-    $conditions - conditionstring cells w alias
-    sample:
-    ->where("id","","=","15")
-    ->where("age","another_table_name",">",25,"AND")
-    ->where("name","","=","John Doe","AND")
 
-    code syntax view:
-    $conj . $table . $cell . $operand . $value
-
-    */
-    public function where($cell, $table, $operand = "=", $value = "", $conj = "") {
+    /**
+     * WHERE conditions
+     * sample:
+     * ->where("id","","=","15")
+     * ->where("age","another_table_name",">",25,"AND")
+     * ->where("name","","=","John Doe","AND")
+     *
+     * code syntax view:
+     * $conj . $table . $cell . $operand . $value
+     *
+     * @param $cell
+     * @param $table
+     * @param $operand
+     * @param $value
+     * @param $conj
+     * @return $this
+     */
+    public function where($cell, $table, $operand = "=", $value = "", $conj = ""): static
+    {
         if (isset($this->CRUD['operation']) && $this->CRUD['operation'] != "create" && $this->CRUD['operation'] != "empty") {
             if ($table == "") {$table = $this->CRUD["table"];}
             if (!isset($this->CRUD["condition"])) {$this->CRUD["condition"] = array();}
@@ -282,13 +329,18 @@ class CRUD extends PDO
         }
         return $this;
     }
-    /*
+
+    /**
      * Simple condition on the table ID
      * use it only for the first of the conditions!
      * equivalent to:
      * ->where("id","","=",$IDValue)
-     * */
-    public function whereID($IDvalue) {
+     *
+     * @param $IDvalue
+     * @return $this
+     */
+    public function whereID($IDvalue): static
+    {
         if (isset($this->CRUD['operation']) && $this->CRUD['operation'] != "create" && $this->CRUD['operation'] != "empty") {
             $this->CRUD["condition"][] = array(
                 "cell" => "id",
@@ -301,8 +353,13 @@ class CRUD extends PDO
         return $this;
     }
 
-    /* where cap start */
-    public function whereCS($conj = "") {
+    /**
+     * where cap start
+     * @param $conj
+     * @return $this
+     */
+    public function whereCS($conj = ""): static
+    {
         $this->CRUD["condition"][] = array(
             "cell" => "",
             "table" => "",
@@ -312,8 +369,13 @@ class CRUD extends PDO
         );
         return $this;
     }
-    /* where cap end */
-    public function whereCE() {
+
+    /**
+     * where cap end
+     * @return $this
+     */
+    public function whereCE(): static
+    {
         $this->CRUD["condition"][] = array(
             "cell" => "",
             "table" => "",
@@ -324,13 +386,16 @@ class CRUD extends PDO
         return $this;
     }
 
-    /* params
-    $from - from record (default 0) - int
-    $number - number of records - int/false
-
-    if $number not add, the $from value will be the number of records!
-    */
-    public function limit($from, $number = false) {
+    /**
+     * LIMIT
+     * if $number not add, the $from value will be the number of records!
+     *
+     * @param int $from - from record (default 0)
+     * @param int|bool $number - number of records
+     * @return $this
+     */
+    public function limit($from, $number = false): static
+    {
         if (isset($this->CRUD['operation']) && $this->CRUD['operation'] != "create" && $this->CRUD['operation'] != "read" && $this->CRUD['operation'] != "empty") {
             if ($from === false) {
                 unset($this->CRUD["from"]);unset($this->CRUD["number"]);
@@ -343,10 +408,13 @@ class CRUD extends PDO
         return $this;
     }
 
-    /* params
-    $orderby - array of ordering arrays {[cell, orientation],[cell, orientation], ... }
-    */
-    public function orderby($orderby) {
+    /**
+     * ORDERBY
+     * @param $orderby - array of ordering arrays {[cell, orientation],[cell, orientation], ... }
+     * @return $this
+     */
+    public function orderby($orderby): static
+    {
         if (isset($this->CRUD['operation']) && $this->CRUD['operation'] != "create" && $this->CRUD['operation'] != "update" && $this->CRUD['operation'] != "empty") {
             if (is_array($orderby)) {
                 if (!is_array($orderby[0])) {
@@ -361,9 +429,12 @@ class CRUD extends PDO
         return $this;
     }
 
-    /* Debug - return query string and paramstrings
-     * */
-    public function debug() {
+    /**
+     * Debug - return query string and paramstrings
+     * @return $this
+     */
+    public function debug(): static
+    {
         $this->CRUD["debug"] = true;
         return $this;
     }
@@ -373,7 +444,8 @@ class CRUD extends PDO
      * @param $table
      * @return array
      */
-    private function getColumnNames($table) {
+    private function getColumnNames($table): array
+    {
         $columns = [];
         if($_ENV["DB_DRIVER"] == "sqlite") {
             $cdt = $this->query("PRAGMA table_info(`users`)");
@@ -391,7 +463,8 @@ class CRUD extends PDO
      * Prepare and Execute Query
      * @return array|bool|mixed|\PDOStatement|string
      */
-    public function get() {
+    public function get(): mixed
+    {
         if (isset($this->CRUD['operation'])) {
             $this->binds = array();
 
@@ -645,7 +718,8 @@ class CRUD extends PDO
      * Get the Query
      * @return mixed
      */
-    public function getQS() {
+    public function getQS(): mixed
+    {
         return $this->qs;
     }
 
@@ -653,7 +727,8 @@ class CRUD extends PDO
      * get full query debug
      * @return string
      */
-    public function getDebug() {
+    public function getDebug(): string
+    {
         $retString = "Query string:<br>[" . $this->qs . "]<br>";
         if (count($this->binds) > 0) {
             $retString .= "Params:<br>" . var_export($this->binds, true);

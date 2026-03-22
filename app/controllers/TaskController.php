@@ -13,7 +13,13 @@ class TaskController extends BaseController
         }
     }
 
-    public function index($id = null) {
+    /**
+     * Admin Task List
+     * @param $id
+     * @return void
+     */
+    public function index($id = null): void
+    {
         $statusKeys = array_keys($this->taskStatus);
         $title = 'Task List';
 
@@ -48,7 +54,12 @@ class TaskController extends BaseController
 
     }
 
-    public function create() {
+    /**
+     * Admin Task Create to Form
+     * @return void
+     */
+    public function create(): void
+    {
         $title = 'Add Task';
 
         $statusKeys = array_keys($this->taskStatus);
@@ -76,7 +87,13 @@ class TaskController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
-    public function update($id) {
+    /**
+     * Admin Task Update to Form
+     * @param $id
+     * @return void
+     */
+    public function update($id): void
+    {
         $title = 'Edit Task';
 
         $statusKeys = array_keys($this->taskStatus);
@@ -100,7 +117,12 @@ class TaskController extends BaseController
         include __DIR__ . '/../views/footer.php';
     }
 
-    public function submit() {
+    /**
+     * Admin Task Submit and Process Data from Form
+     * @return void
+     */
+    public function submit(): void
+    {
         $newId = $_POST["id"];
         $data = [
             "user_id" => $_POST["user_id"],
@@ -131,7 +153,13 @@ class TaskController extends BaseController
         $this->helper->redirect('/task-list');
     }
 
-    public function delete($id) {
+    /**
+     * Admin Task Delete
+     * @param $id
+     * @return void
+     */
+    public function delete($id): void
+    {
         $this->crud->delete()
             ->table('tasks')
             ->whereId($id)->get();

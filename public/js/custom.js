@@ -1,3 +1,9 @@
+/**
+ * Set Cookie
+ * @param cname
+ * @param cvalue
+ * @param exdays
+ */
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -5,6 +11,11 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+/**
+ * Get Cookie by Name
+ * @param cname
+ * @returns {string}
+ */
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
