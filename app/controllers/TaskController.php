@@ -101,7 +101,34 @@ class TaskController extends BaseController
     }
 
     public function submit() {
+        $newId = $_POST["id"];
+        $data = [
+            "user_id" => $_POST["user_id"],
+            "name" => $this->helper->h($_POST["name"]),
+            "status" => $_POST["status"],
+            "due_date" => gmdate("Y-m-d", strtotime($_POST["due_date"])),
+            "body" => $this->helper->h($_POST["body"]),
+        ];
 
+        if ($newId == 0) {
+            $data['created_at'] = date("Y-m-d H:i:s");
+            $data['updated_at'] = date("Y-m-d H:i:s");
+            $data['slug'] = $this->helper->slugify($_POST["name"]);
+            $this->crud->insert($data)
+                ->table('tasks')->get();
+            $cookieContent = "bg-success;The task has been created";
+        } else {
+            $data['updated_at'] = date("Y-m-d H:i:s");
+            $data['slug'] = $this->helper->slugify($_POST["name"]);
+            $upd = $this->crud->update($data)
+                ->table('tasks')
+                ->whereId($newId)
+                ->get();
+            $cookieContent = "bg-success;The task has been updated";
+        }
+
+        setcookie("flashCookie", $cookieContent, time() + 3600,"/");
+        $this->helper->redirect('/task-list');
     }
 
     public function delete($id) {

@@ -50,7 +50,7 @@
 
         <div class="form-group col-md-12 col-xs-12">
             <label for="body">Task Description</label>
-            <textarea class="form-control" id="body" name="body" placeholder="Task Description"><?= $data["task"]["body"] ?></textarea>
+            <textarea class="form-control" id="body" name="body" required placeholder="Task Description"><?= $data["task"]["body"] ?></textarea>
             <p class="help-block">You can use Markdown syntax to create the document.</p>
         </div>
         <div class="form-footer col-md-12 col-xs-12">

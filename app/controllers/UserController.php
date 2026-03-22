@@ -62,7 +62,7 @@ class UserController extends BaseController
         $newId = $_POST["id"];
         $newPassword = $_POST["password"];
         $newData = [
-            "name" => $_POST["name"],
+            "name" => $this->helper->h($_POST["name"]),
             "is_admin" => isset($_POST["is_admin"]) ? 1 : 0,
         ];
 

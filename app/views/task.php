@@ -7,7 +7,7 @@
  */
 ?>
 <div class="status-links">
-    <a href="/tasks/<?= $statusText ?>" class="btn btn-xs btn-link'">Back to Tasks</a>
+    <a href="/tasks/<?= $statusText ?>" class="btn btn-xs btn-link">Back to Tasks</a>
 </div>
 <h1><?= $title ?></h1>
 <?php if (!$task): ?>
@@ -28,12 +28,12 @@
         <?= $this->parsedown->text($task['body']) ?>
         <div class="article-footer">
             <small>
-                Published <?= $this->helper->h(date('j M Y, H:i', strtotime($task['created_at']))) ?>
+                Published <?= date('j M Y, H:i', strtotime($task['created_at'])) ?>
                 <?php if ($task['created_at'] != $task['updated_at']): ?>
-                    • Updated <?= $this->helper->h(date('j M Y, H:i', strtotime($task['updated_at']))) ?>
+                    • Updated <?= date('j M Y, H:i', strtotime($task['updated_at'])) ?>
                 <?php endif; ?>
             </small>
-            <small>Due Date <?= $this->helper->h(date('j M Y', strtotime($task['due_date']))) ?></small>
+            <small>Due Date <?= date('j M Y', strtotime($task['due_date'])) ?></small>
         </div>
     </article>
 <?php endif; ?>

@@ -19,7 +19,7 @@
 <?php foreach ($tasks as $task): ?>
     <article class="task">
         <div class="article-header">
-            <h2><a href="/task/<?= $this->helper->h($task['slug']) ?>"><?= $this->helper->h($task['name']) ?></a></h2>
+            <h2><a href="/task/<?= $task['slug'] ?>"><?= $task['name'] ?></a></h2>
             <div>
                 <?php if ($this->user["is_admin"]): ?>
                     <span class="status-badge user-badge">User: <?= $task['users_name'] ?: "unknown" ?></span>
@@ -35,10 +35,10 @@
                 <span class="status-badge <?= $this->taskStatus[$_status] ?>"><?= ucfirst($_status) ?></span>
             </div>
         </div>
-        <?= $this->parsedown->text(substr($task['body'],0,100)."... [more](/task/". $this->helper->h($task['slug']) .")") ?>
+        <?= $this->parsedown->text(substr($task['body'],0,100)."... [more](/task/". $task['slug'] .")") ?>
         <div class="article-footer">
-            <small>Published <?= $this->helper->h(date('j M Y, H:i', strtotime($task['created_at']))) ?></small>
-            <small>Due Date <?= $this->helper->h(date('j M Y', strtotime($task['due_date']))) ?></small>
+            <small>Published <?= date('j M Y, H:i', strtotime($task['created_at'])) ?></small>
+            <small>Due Date <?= date('j M Y', strtotime($task['due_date'])) ?></small>
         </div>
     </article>
 <?php endforeach; ?>
